@@ -36,7 +36,7 @@ function get_course_progress_array() {
 	for (i = 0; i < item_array_new.length; i++) {
 
 		var trailing_string = item_array_new[i][0].
-			slice(viewed_string.length, item_array_new[i][0].length);
+			slice(-viewed_string.length, item_array_new[i][0].length);
 
 		var viewed = (trailing_string == viewed_string);
 
