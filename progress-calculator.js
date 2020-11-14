@@ -194,6 +194,6 @@ function show_progress_summary(data) {
 
 course_progress = get_course_progress_array();
 
-// download_csv(course_progress);
+download_csv(course_progress);
 
 show_progress_summary(course_progress);
