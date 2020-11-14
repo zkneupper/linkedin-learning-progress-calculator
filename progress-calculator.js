@@ -85,7 +85,26 @@ function get_course_progress_array() {
 }
 
 
+function download_csv(data) {
+	
+	var csv = "title,length,viewed,minutes,seconds\n";
 
+	data.forEach(
+		function(row) {
+			csv += row.join(",");
+			csv += "\n";
+		}
+	);
+
+	console.log(csv);
+
+	var hiddenElement = document.createElement("a");
+	
+	hiddenElement.href = "data:text/csv;charset=utf-8," + encodeURI(csv);
+	hiddenElement.target = "_blank";
+	hiddenElement.download = "data.csv";
+	hiddenElement.click();
+}
 
 
 
