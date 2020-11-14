@@ -107,9 +107,93 @@ function download_csv(data) {
 }
 
 
+function show_progress_summary(data) {
+	var minutes_total = 0;
+	var minutes_viewed = 0;
+	var minutes_unviewed = 0;
 
+	var seconds_total = 0;
+	var seconds_viewed = 0;
+	var seconds_unviewed = 0;
 
+	for (i = 0; i < data.length; i++) {
 
+		var viewed = data[i][2];
+		var minutes = data[i][3];
+		var seconds = data[i][4];
 
+		minutes_total += minutes;
+		seconds_total += seconds;
 
+		if (viewed) {
+			minutes_viewed += minutes;
+			seconds_viewed += seconds;
+		} else {
+			minutes_unviewed += minutes;
+			seconds_unviewed += seconds;
+		}
+	}
 
+	var additional_minutes_total = (Math.floor(seconds_total / 60));
+	var additional_minutes_viewed = (Math.floor(seconds_viewed / 60));
+	var additional_minutes_unviewed = (Math.floor(seconds_unviewed / 60));
+
+	var remainder_seconds_total = (seconds_total % 60);
+	var remainder_seconds_viewed = (seconds_viewed % 60);
+	var remainder_seconds_unviewed = (seconds_unviewed % 60);
+
+	minutes_total += additional_minutes_total;
+	minutes_viewed += additional_minutes_viewed;
+	minutes_unviewed += additional_minutes_unviewed;
+
+	seconds_total += remainder_seconds_total;
+	seconds_viewed += remainder_seconds_viewed;
+	seconds_unviewed += remainder_seconds_unviewed;
+
+	var hours_total = (Math.floor(minutes_total / 60));
+	var hours_viewed = (Math.floor(minutes_viewed / 60));
+	var hours_unviewed = (Math.floor(minutes_unviewed / 60));
+
+	minutes_total = (minutes_total % 60);
+	minutes_viewed = (minutes_viewed % 60);
+	minutes_unviewed = (minutes_unviewed % 60);
+
+	var total_seconds_total = (
+		seconds_total + 
+		(minutes_total * 60) + 
+		(hours_total * 60 * 60)
+		);
+
+	var total_seconds_viewed = (
+		seconds_viewed + 
+		(minutes_viewed * 60) + 
+		(hours_viewed * 60 * 60)
+		);
+
+	var total_seconds_unviewed = (
+		seconds_unviewed + 
+		(minutes_unviewed * 60) + 
+		(hours_unviewed * 60 * 60)
+		);
+
+	var percent_complete = (100 * (total_seconds_viewed / total_seconds_total));
+	var percent_complete_str = percent_complete.toFixed(2) + "%";
+
+	var summary_text = "";
+	summary_text += "Total:            " + hours_total + "h " + minutes_total + "m " + seconds_total + "s ";
+	summary_text += "\n";
+	summary_text += "Viewed            " + hours_viewed + "h " + minutes_viewed + "m " + seconds_viewed + "s ";
+	summary_text += "\n";
+	summary_text += "Remaining:        " + hours_unviewed + "h " + minutes_unviewed + "m " + seconds_unviewed + "s ";
+	summary_text += "\n";
+	summary_text += "Percent complete: " + percent_complete_str;
+
+	console.log(summary_text);
+}
+	
+
+course_progress = get_course_progress_array();
+
+// download_csv(course_progress);
+
+show_progress_summary(course_progress);
