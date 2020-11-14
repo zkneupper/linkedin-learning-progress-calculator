@@ -26,7 +26,7 @@ function get_course_progress_array() {
 	var item_array_new = [];
 
 	for (i = 0; i < item_array.length; i++) {
-		if (pattern.text(item_array[i][1])) {
+		if (pattern.test(item_array[i][1])) {
 			item_array_new.push(item_array[i]);
 		}
 	}
@@ -99,7 +99,7 @@ function download_csv(data) {
 	console.log(csv);
 
 	var hiddenElement = document.createElement("a");
-	
+
 	hiddenElement.href = "data:text/csv;charset=utf-8," + encodeURI(csv);
 	hiddenElement.target = "_blank";
 	hiddenElement.download = "data.csv";
